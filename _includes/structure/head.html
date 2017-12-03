@@ -15,7 +15,7 @@
     </title>
 
     {% if site.github.environment == "dotcom" %}
-      <script type="text/javascript"> {% include scripts/google.js %} </script>
+      {% include scripts/google.js %}
     {% endif %}
 
     <script src="{{ site.baseurl }}/theme/js/jquery-3.2.1.min.js"></script>

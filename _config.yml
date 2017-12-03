@@ -1,0 +1,57 @@
+# Outputting
+permalink: /:categories/:year/:month/:day/:title.html
+
+# Conversion
+markdown:         kramdown
+highlighter:      rouge
+excerpt_separator: <!--more-->
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Config for your profile.
+title:            paulwelch.github.io
+name:             Paul Welch
+avatar:           https://avatars2.githubusercontent.com/u/2567860?s=460&v=4
+
+baseurl: ""
+include: ["_pages"]
+
+collections:
+  projects:
+    output: true
+    title: Projects
+    permalink: /:collection/:name.html
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      show_profile: true
+  -
+    scope:
+      path: "_posts"
+    values:
+      show_profile: false
+      layout: defaults/post
+  -
+    scope:
+      path: "_projects"
+    values:
+      show_profile: false
+      layout: defaults/project
+  -
+    scope:
+      path: "blog"
+    values:
+      show_profile: false
+      layout: defaults/blog
+  -
+    scope:
+      path: "projects"
+    values:
+      show_profile: false
+      layout: defaults/project

@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+<h5 class="list-title border border-left-0 border-right-0 py-2">
+      <p class="d-flex align-items-center">
+        {{ page.title }}
+
+        <span class="icon grey ml-3" markdown="0">
+          <a href={{ site.baseurl }}"/feed.xml">{% include entypo/rss.svg %}</a>
+        </span>
+      </p>
+</h5>
+
+{{ content }}

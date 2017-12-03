@@ -1,0 +1,29 @@
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    {% feed_meta %}
+
+    <title>
+        {% if page.title %}
+            {{ page.title }} &middot; {{ site.title }}
+        {% else %}
+            {{ site.title }}
+        {% endif %}
+    </title>
+
+    {% if site.github.environment == "dotcom" %}
+      <script src="{{ site.includes.scripts }}/google.js"></script>
+    {% endif %}
+
+    <script src="{{ site.baseurl }}/theme/js/jquery-3.2.1.min.js"></script>
+    <script src="{{ site.baseurl }}/theme/js/popper.min.js"></script>
+    <script src="{{ site.baseurl }}/theme/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="{{ site.baseurl }}/theme/css/bootstrap.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/theme/css/site.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/theme/css/syntax.css">
+
+</head>

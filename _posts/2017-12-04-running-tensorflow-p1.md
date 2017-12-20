@@ -1,12 +1,12 @@
 ---
-title:  Running TensorFlow Models (Part 1)
+title:  Running TensorFlow Models (Part 1 - Running the model)
 tags:
   - Machine Learning
   - TensorFlow
   - Docker
 ---
 
-So you've trained your TensorFlow ML model, now what?  *(Part 1)*
+So you've trained your TensorFlow ML model, now what?  *(Part 1 - Running the model)*
 
 To show how to run it, I'll use an open source pre-trained model, specifically [Inception V3](https://github.com/tensorflow/models/tree/master/research/inception){:target="_blank"}. Inception was developed at Google and won the ILSVRC 2014 image classification competition. Plus, it's a fun model to play around with.
 

@@ -1,5 +1,5 @@
 ---
-title:  Running TensorFlow Models (Part 2)
+title:  Running TensorFlow Models (Part 2 - Deploy to Kubernetes)
 tags:
   - Machine Learning
   - TensorFlow
@@ -7,7 +7,7 @@ tags:
   - Docker
 ---
 
-So you've trained your TensorFlow ML model, now what?  *(Part 2)*
+So you've trained your TensorFlow ML model, now what?  *(Part 2 - Deploy to Kubernetes)*
 
 [Part 1](/2017/12/04/running-tensorflow-p1){:target="_blank"} showed how to run the open source pre-trained model [Inception V3](https://github.com/tensorflow/models/tree/master/research/inception){:target="_blank"} as an image classification service. That's all you need to do for a single classification instance, whether you run it on a server, your laptop or even a smart IoT device. But, what if you need to scale to handle a high volume of concurrent requests or you want multiple instances for resilency? For that, you'll want to [scale horizaontally](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling){:target="_blank"} with many instances. Then, a cluster managed by a resource scheduler like Kubernetes is a great way to go. Not only does it help with scalability, but it also enables deployment automation, improves manageability and will most likely result in better infrastructure utilization.
 

@@ -1,5 +1,5 @@
 ---
-title:  Running TensorFlow Models (Part 2 - Deploy to Kubernetes)
+title:  Running TensorFlow Models (Part 2 - Deploying to Kubernetes)
 tags:
   - Machine Learning
   - TensorFlow
@@ -7,7 +7,7 @@ tags:
   - Docker
 ---
 
-So you've trained your TensorFlow ML model, now what?  *(Part 2 - Deploy to Kubernetes)*
+So you've trained your TensorFlow ML model, now what?  *(Part 2 - Deploying to Kubernetes)*
 
 [Part 1](/2017/12/04/running-tensorflow-p1){:target="_blank"} showed how to run the open source pre-trained model [Inception V3](https://github.com/tensorflow/models/tree/master/research/inception){:target="_blank"} as an image classification service. That's all you need to do for a single classification instance, whether you run it on a server, your laptop or even a smart IoT device. But, what if you need to scale to handle a high volume of concurrent requests or you want multiple instances for resilency? For that, you'll want to [scale horizaontally](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling){:target="_blank"} with many instances. Then, a cluster managed by a resource scheduler like Kubernetes is a great way to go. Not only does it help with scalability, but it also enables deployment automation, improves manageability and will most likely result in better infrastructure utilization.
 
@@ -145,4 +145,4 @@ To sum it up, a few of the benefits of using Kubernetes to run our classificatio
 * **Auto-Scaling** - You can dynamically scale the instances in or out to handle the required load by applying a new `replicas` config value. Changing the scale is easily initiated by an external system, such as a monitoring system that could make changes based on CPU utilization, the depth of some queue or another metric.
 * **Optimized Utilization** - Infrastructure resources in the cluster are used efficiently, both because they are shared across all pods and also by dynamically scaling deployments to use only the resources they need at the time. Also, compared to virtual machines, resources are not hard allocated per container instance which may be a another good topic for a future post.
 
-The service is shaping up pretty well so far. In the next part, I'll take a look at using the service from another application separately deployed in the cluster.
+The service is shaping up pretty well so far. In the [next part](/2017/12/28/running-tensorflow-p3.html){:target="_blank"}, I'll take a look at using the service from another application separately deployed in the cluster.

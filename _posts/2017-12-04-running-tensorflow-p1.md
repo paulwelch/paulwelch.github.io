@@ -82,4 +82,4 @@ outputs {
 }
 ~~~
 
-Next time, I'll show how to run our classification service in Kubernetes for better scalability and manageability.  [Part 2](/2017/12/06/running-tensorflow-p2){:target="_blank"}
+Next time, I'll show how to run our classification service in Kubernetes for better scalability and manageability.  [Part 2](/2017/12/07/running-tensorflow-p2){:target="_blank"}

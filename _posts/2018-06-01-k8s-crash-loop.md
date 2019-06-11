@@ -13,7 +13,7 @@ There are a number of reasons why pods fail to reach a running state. Missing re
 
 <!--more-->
 
-I ran into an example of this when installing Rancher Labs very interesting distributed storage project called [Longhorn](https://github.com/rancher/longhorn) - that's a good topic for a future post on it's own. After installing Longhorn, I noticed the pods stuck in `CrasLoopBackOff` status.
+I ran into an example of this when installing Rancher Labs very interesting distributed storage project called [Longhorn](https://github.com/rancher/longhorn){:target="_blank"} - that's a good topic for a future post on it's own. After installing Longhorn, I noticed the pods stuck in `CrasLoopBackOff` status.
 
 ``` shell
 [centos@wrk1 ~]$ kubectl get pods -n longhorn-system

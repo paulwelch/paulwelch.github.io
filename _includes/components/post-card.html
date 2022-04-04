@@ -3,9 +3,6 @@
         <h4 class="card-title mb-4">
             <a href="{{ post.url | absolute_url }}">{{ post.title }}</a>
         </h4>
-        <h6 class="card-subtitle mb-3 text-secondary">
-            {{ post.date | date_to_string }}
-        </h6>
         <div class="card-text d-flex align-items-center mb-2">
             <span class="icon grey mr-2 mb-1">
                 {% include entypo/price-tag.svg %}

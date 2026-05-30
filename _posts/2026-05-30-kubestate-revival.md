@@ -13,7 +13,7 @@ A few years ago I built [kubestate](https://github.com/paulwelch/kubestate), a s
 
 ### The problem with "good enough"
 
-Software has a shelf life, and kubestate had been sitting untouched since 2019. The Go ecosystem moves quickly. The Kubernetes client library moves even faster. After a few years, the project was effectively frozen in time:
+The Go ecosystem moves quickly. The Kubernetes client library moves even faster. The project had accumulated enough drift that it was effectively frozen in time:
 
 - It used **Glide** for dependency management, which has long since been superseded by Go modules
 - The `urfave/cli` dependency was on v1, while v2 had shipped with a meaningfully different API
@@ -25,15 +25,9 @@ The project wasn't broken in a catastrophic way — it just accumulated enough d
 
 ### Modernizing the foundation
 
-The first step was migrating away from Glide. This meant deleting `glide.yaml`, `glide.lock`, and the entire vendored dependency tree, and replacing it with a proper `go.mod` and `go.sum`. With Go modules, dependency versions are explicit, reproducible, and auditable — which matters both for security and for the long-term health of the project.
+The first step was migrating away from Glide to a proper `go.mod` and `go.sum`. With Go modules, dependency versions are explicit, reproducible, and auditable. With the module system in place, bumping `client-go` and `urfave/cli` to current versions became straightforward. The CLI migration from v1 to v2 required updating how commands and flags are wired — flag access moved from positional arguments to typed methods on the context object — but the logic underneath stayed intact.
 
-With the module system in place, bumping `client-go` and `urfave/cli` to current versions became straightforward. The CLI migration from v1 to v2 required updating how commands and flags are wired — flag access moved from positional arguments to typed methods on the context object — but the logic underneath stayed intact.
-
-### Fixing what was broken
-
-Modern `client-go` requires a `context.Context` to be passed through most API calls, reflecting the broader Go ecosystem shift toward explicit cancellation and timeout propagation. Updating those call sites was mechanical but important — it's the kind of change that makes the code behave correctly under load and gives operators a proper way to interrupt long-running requests.
-
-The raw-metric filtering logic got a cleanup pass too. A handful of edge cases in the aggregation code could produce panics when a node returned incomplete data — not common, but the kind of thing that turns a useful debugging tool into an unreliable one. Adding explicit nil checks and extracting the filtering into reusable helpers makes the behavior predictable.
+Modern `client-go` also requires a `context.Context` through most API calls. Updating those call sites was mechanical but important — it gives operators a proper way to interrupt long-running requests. The filtering logic also got a cleanup pass to handle nil-check edge cases that could panic when a node returned incomplete data.
 
 ### Implementing what was promised
 
@@ -47,13 +41,14 @@ Two operational improvements that turned out to matter more than expected:
 
 ### Quality gates
 
-The project now has a CI workflow that runs `go test ./...`, `go vet ./...`, and `go build ./...` on every push. There are unit tests covering the filtering and output validation logic. Neither of those things existed before.
+The project now has a CI workflow that runs `go test ./...`, `go vet ./...`, and `go build ./...` on every push, with unit tests covering the filtering and output validation logic. Neither of those things existed before — the original version was built quickly to scratch a personal itch, and tests felt like overhead for something so small. That calculus shifts once other people might depend on it, or once you come back after a gap and need to refactor with confidence.
 
-It's worth being honest about why: the original version was built quickly to scratch a personal itch, and tests felt like overhead for something so small. That calculus shifts once other people might depend on it, or once you come back to it after a long gap and need to refactor with confidence. Tests are documentation that executes.
+CI also publishes to a [Homebrew tap](https://github.com/paulwelch/homebrew-tap), so installation is straightforward:
 
-### One remaining issue
-
-After all the fixes, there's still one runtime problem worth mentioning: in some cluster configurations, kubestate returns `no endpoints available for service "kube-state-metrics"` even when the service exists. This turns out to be a service/endpoints wiring issue rather than anything in kubestate itself — the original namespace hardcoding bug masked it. The fix is straightforward on the cluster side, but it's worth knowing about if you hit it.
+```bash
+brew tap paulwelch/tap
+brew install kubestate
+```
 
 ### What's next
 

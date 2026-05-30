@@ -1,41 +1,187 @@
-.profile-image {
-    border: 5px solid rgba(0, 0, 0, 0.2);
+/* ============================================================
+   Typography & Base
+   ============================================================ */
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #1a1a2e;
+    background-color: #f8f9fa;
 }
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    color: #0f0f1a;
+}
+
+a {
+    color: #3b5bdb;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #2f4ac0;
+    text-decoration: underline;
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
 
 .site-container {
     padding-top: 80px;
 }
 
-.icon {
-    height: 21px;
-    width: 21px;
+.content {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 2rem 2.5rem !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
-.icon.grey svg path {
-    fill: #999;
+/* ============================================================
+   Navigation
+   ============================================================ */
+
+.navbar.bg-dark {
+    background-color: #0f0f1a !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
-.icon.red svg path {
-    fill: #A00;
+.navbar-brand {
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
 }
 
-.list-title {
-    text-transform: uppercase;
-    font-weight: 300;
-    font-size: 21px;
+.navbar .nav-link {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+    transition: opacity 0.15s;
+}
+
+.navbar .nav-link:hover {
+    opacity: 1;
 }
 
 .navbar-toggler:focus {
     outline: none;
+    box-shadow: none;
 }
 
 .navbar-toggler {
     background-color: rgba(255,255,255,0.1);
+    border: none;
 }
 
 .navbar-toggler.collapsed {
     background-color: transparent;
 }
+
+/* ============================================================
+   Profile sidebar
+   ============================================================ */
+
+.profile-image {
+    border: 3px solid rgba(0, 0, 0, 0.08);
+    transition: border-color 0.2s;
+}
+
+.profile-image:hover {
+    border-color: rgba(59, 91, 219, 0.35);
+}
+
+.side .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.side .card.bg-light {
+    background-color: #f0f2ff !important;
+}
+
+/* ============================================================
+   Post cards (blog index)
+   ============================================================ */
+
+.card-post {
+    border-color: #e9ecef !important;
+    transition: none;
+}
+
+.card-post .card-title a {
+    color: #0f0f1a;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.card-post .card-title a:hover {
+    color: #3b5bdb;
+    text-decoration: none;
+}
+
+.card-post .card-text p {
+    color: #4a4a6a;
+    font-size: 0.95rem;
+}
+
+.card-post a[href$="More..."] {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3b5bdb;
+}
+
+/* ============================================================
+   Tags
+   ============================================================ */
+
+.tag, a.tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #4a4a6a;
+    background-color: #f0f2ff !important;
+    border-color: #d0d8ff !important;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+
+.tag:hover {
+    background-color: #e2e8ff !important;
+    text-decoration: none;
+}
+
+.tag.bg-warning {
+    background-color: #ffd43b !important;
+    color: #1a1a2e !important;
+    border-color: #fcc419 !important;
+}
+
+/* ============================================================
+   Page headings
+   ============================================================ */
+
+h1.border {
+    border-color: #e9ecef !important;
+    font-size: 1.8rem;
+    letter-spacing: -0.02em;
+}
+
+.list-title {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: #6c757d;
+    border-color: #e9ecef !important;
+}
+
+/* ============================================================
+   Anchor offset for fixed navbar
+   ============================================================ */
 
 h2[id]::before {
     display: block;
@@ -49,3 +195,44 @@ h2[id]::before {
     padding-top: 80px;
     margin-top: -80px;
 }
+
+/* ============================================================
+   Icons
+   ============================================================ */
+
+.icon {
+    height: 21px;
+    width: 21px;
+}
+
+.icon.grey svg path {
+    fill: #6c757d;
+}
+
+.icon.red svg path {
+    fill: #A00;
+}
+
+/* ============================================================
+   Code blocks
+   ============================================================ */
+
+code {
+    font-size: 0.875em;
+    color: #3b5bdb;
+    background-color: #f0f2ff;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+}
+
+pre code {
+    color: inherit;
+    background: none;
+    padding: 0;
+}
+
+.highlight pre, pre {
+    border-radius: 8px;
+    font-size: 0.875rem;
+}
+

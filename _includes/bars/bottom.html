@@ -1,14 +1,18 @@
 {% if page.show_profile %}
 
-<div class="card-deck">
-    <div class="card bg-light col-xs-6 mb-4">
-        <div class="card-body text-center">
-            {% include components/profile-avatar.html %}
+<div class="row row-cols-2 g-3">
+    <div class="col">
+        <div class="card bg-light h-100">
+            <div class="card-body text-center">
+                {% include components/profile-avatar.html %}
+            </div>
         </div>
     </div>
-    <div class="card bg-light col-xs-6 mb-4">
-        <div class="card-body">
-            {% include components/profile-body.html %}
+    <div class="col">
+        <div class="card bg-light h-100">
+            <div class="card-body">
+                {% include components/profile-body.html %}
+            </div>
         </div>
     </div>
 </div>

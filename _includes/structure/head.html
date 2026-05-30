@@ -1,7 +1,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
     {% feed_meta %}
@@ -18,9 +18,11 @@
       {% include scripts/google.js %}
     {% endif %}
 
-    <script src="{{ site.baseurl }}/theme/js/jquery-3.2.1.min.js"></script>
-    <script src="{{ site.baseurl }}/theme/js/popper.min.js"></script>
-    <script src="{{ site.baseurl }}/theme/js/bootstrap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="{{ site.baseurl }}/theme/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="{{ site.baseurl }}/theme/css/bootstrap.css">
     <link rel="stylesheet" href="{{ site.baseurl }}/theme/css/site.css">

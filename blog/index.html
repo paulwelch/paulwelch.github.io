@@ -10,10 +10,10 @@ permalink: blog/index.html
 
 <div id="currently-showing">
     <h2 class="d-flex align-items-center mb-3">
-        <span class="text-secondary mr-2">Showing everything matching:</span>
-        <span class="border rounded p-2 mr-2 bg-light text-secondary" id="active-tag"></span>
+        <span class="text-secondary me-2">Showing everything matching:</span>
+        <span class="border rounded p-2 me-2 bg-light text-secondary" id="active-tag"></span>
         <a class="btn btn-primary btn-small" href="javascript:void(0)" onclick="clearTags()">clear</a>
-    </h4>
+    </h2>
 </div>
 
 {% capture written_year %}'None'{% endcapture %}
@@ -24,41 +24,48 @@ permalink: blog/index.html
 {% endfor %}
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    document.addEventListener('DOMContentLoaded', function() {
         if (document.location.hash.length > 0) {
-            var tag = document.location.hash.slice(1)
-            var name = $(".tag-" + tag).first().text()
-            showPostByTag(tag, name)
+            var tag = document.location.hash.slice(1);
+            var el = document.querySelector('.tag-' + tag);
+            var name = el ? el.textContent.trim() : '';
+            showPostByTag(tag, name);
+        } else {
+            document.getElementById('currently-showing').style.display = 'none';
         }
-        else {
-            $("#currently-showing").hide()
-        }
-    })
+    });
 
     var showPostByTag = function(tag, name) {
-        $("#currently-showing").show()
-        $(".card-post").hide()
-        $(".tag").removeClass("bg-warning")
-            .addClass("bg-white")
-            .removeClass("text-dark")
-        $(".card-post").each(function(idx, card) {
-            var matches = $(card).find(".tag-" + tag)
-            if (matches.length > 0) $(card).show()
-        })
-        $(".tag-" + tag).removeClass("bg-white")
-            .addClass("bg-warning")
-            .addClass("text-dark")
-            .blur()
-        $("#active-tag").html(name)
-    }
+        document.getElementById('currently-showing').style.display = '';
+        document.querySelectorAll('.card-post').forEach(function(card) {
+            card.style.display = 'none';
+        });
+        document.querySelectorAll('.tag').forEach(function(el) {
+            el.classList.remove('bg-warning', 'text-dark');
+            el.classList.add('bg-white');
+        });
+        document.querySelectorAll('.card-post').forEach(function(card) {
+            if (card.querySelector('.tag-' + tag)) {
+                card.style.display = '';
+            }
+        });
+        document.querySelectorAll('.tag-' + tag).forEach(function(el) {
+            el.classList.remove('bg-white');
+            el.classList.add('bg-warning', 'text-dark');
+            el.blur();
+        });
+        document.getElementById('active-tag').textContent = name;
+    };
 
     var clearTags = function() {
-        $("#currently-showing").hide()
-        $(".card-post").show()
-        $(".tag").removeClass("bg-warning")
-            .addClass("bg-white")
-            .removeClass("text-dark")
-        document.location.hash = ""
-    }
-
+        document.getElementById('currently-showing').style.display = 'none';
+        document.querySelectorAll('.card-post').forEach(function(card) {
+            card.style.display = '';
+        });
+        document.querySelectorAll('.tag').forEach(function(el) {
+            el.classList.remove('bg-warning', 'text-dark');
+            el.classList.add('bg-white');
+        });
+        document.location.hash = '';
+    };
 </script>

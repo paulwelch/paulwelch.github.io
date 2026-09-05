@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install google-genai
+          pip install google-genai pydantic
 
       - name: Run Topic Discovery
         env:

@@ -5,7 +5,24 @@ import xml.etree.ElementTree as ET
 from google import genai
 from google.genai import types
 
-# 1. Fetch Trending Papers from Hugging Face API
+# ---------------------------------------------------------------------------
+# 1. Schemas (Must be defined BEFORE functions reference them)
+# ---------------------------------------------------------------------------
+class TopicCandidate(BaseModel):
+    title: str = Field(description="Punchy, accessible proposed post title")
+    core_concept: str = Field(description="1-2 sentence summary of the breakthrough")
+    why_it_matters: str = Field(description="Why an engineering leader or builder should care")
+    technical_hook: str = Field(description="Specific architecture, paper, or repo link")
+    target_angle: str = Field(description="How we will make it intuitive/accessible")
+    difficulty_score: int = Field(description="Technical depth rating from 1 to 5")
+
+class TopicList(BaseModel):
+    candidates: list[TopicCandidate]
+
+# ---------------------------------------------------------------------------
+# 2. Ingestion
+# ---------------------------------------------------------------------------
+# Fetch Trending Papers from Hugging Face API
 def get_huggingface_papers():
     url = "https://huggingface.co/api/daily_papers"
     req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -21,13 +38,15 @@ def get_huggingface_papers():
         print(f"Error fetching HF papers: {e}")
         return []
 
-# 2. Evaluate with Gemini 2.5 Flash
+# ---------------------------------------------------------------------------
+# 3. Evaluation
+# ---------------------------------------------------------------------------
 def evaluate_topics(papers):
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
     
     prompt = f"""
     You are an expert technical editor and AI system architect for paulwelch.dev.
-    Review these raw AI releases from the past week and recommend 3 to 5 candidate topics for upcoming blog posts.
+    Review these raw AI releases from the past week and recommend 4 to 10 candidate topics for upcoming blog posts.
 
     Target Audience: Senior engineers, technical leaders, and AI enthusiasts.
     Tone: Deep technical understanding communicated clearly without fluff.
@@ -58,10 +77,15 @@ def evaluate_topics(papers):
     )
     return json.loads(response.text)
 
+# ---------------------------------------------------------------------------
+# 4. Main Execution
+# ---------------------------------------------------------------------------
 if __name__ == "__main__":
     papers = get_huggingface_papers()
     if papers:
         candidates = evaluate_topics(papers)
-        # Write output to a file for GitHub Actions to read
         with open("candidates.json", "w") as f:
             json.dump(candidates, f, indent=2)
+        print(f"Successfully generated {len(candidates)} candidate topics.")
+    else:
+        print("No papers fetched. Exiting.")

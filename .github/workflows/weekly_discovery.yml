@@ -1,0 +1,67 @@
+name: Weekly AI Topic Discovery
+
+on:
+  schedule:
+    - cron: '0 6 * * 1' # Every Monday at 6:00 AM UTC
+  workflow_dispatch: # Allows manual trigger anytime from Actions tab
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install google-genai
+
+      - name: Run Topic Discovery
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python .github/scripts/discover_topics.py
+
+      - name: Create GitHub Issues for Candidates
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (!fs.existsSync('candidates.json')) return;
+            
+            const candidates = JSON.parse(fs.readFileSync('candidates.json', 'utf8'));
+            
+            for (const item of candidates) {
+              const body = `
+            ### 💡 Core Concept
+            ${item.core_concept}
+
+            ### 🎯 Why It Matters
+            ${item.why_it_matters}
+
+            ### 🔧 Technical Hook & Source
+            ${item.technical_hook}
+
+            ### 📐 Editorial Angle
+            ${item.target_angle}
+
+            **Estimated Technical Depth:** ${'⭐'.repeat(item.difficulty_score)}
+              `.trim();
+
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `[Idea] ${item.title}`,
+                body: body,
+                labels: ['idea', 'ai-discovery']
+              });
+            }

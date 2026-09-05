@@ -1,12 +1,12 @@
 import os
 import json
 import urllib.request
-import xml.etree.ElementTree as ET
+from pydantic import BaseModel, Field
 from google import genai
 from google.genai import types
 
 # ---------------------------------------------------------------------------
-# 1. Schemas (Must be defined BEFORE functions reference them)
+# 1. Pydantic Schemas
 # ---------------------------------------------------------------------------
 class TopicCandidate(BaseModel):
     title: str = Field(description="Punchy, accessible proposed post title")
@@ -22,7 +22,6 @@ class TopicList(BaseModel):
 # ---------------------------------------------------------------------------
 # 2. Ingestion
 # ---------------------------------------------------------------------------
-# Fetch Trending Papers from Hugging Face API
 def get_huggingface_papers():
     url = "https://huggingface.co/api/daily_papers"
     req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -46,36 +45,39 @@ def evaluate_topics(papers):
     
     prompt = f"""
     You are an expert technical editor and AI system architect for paulwelch.dev.
-    Review these raw AI releases from the past week and recommend 4 to 10 candidate topics for upcoming blog posts.
+    Review these raw AI releases from the past week and recommend 4 to 9 candidate topics for upcoming blog posts.
 
     Target Audience: Senior engineers, technical leaders, and AI enthusiasts.
     Tone: Deep technical understanding communicated clearly without fluff.
 
     Raw Inputs:
     {json.dumps(papers, indent=2)}
-
-    Return a JSON list of candidates matching this schema:
-    [
-      {{
-        "title": "Punchy, accessible proposed post title",
-        "core_concept": "1-2 sentence summary of the breakthrough",
-        "why_it_matters": "Why an engineering leader or builder should care",
-        "technical_hook": "Specific architecture, paper, or repo link",
-        "target_angle": "How we will make it intuitive/accessible",
-        "difficulty_score": 1 to 5
-      }}
-    ]
     """
 
     response = client.models.generate_content(
-        model="gemini-3.6-flash",
+        model="gemini-3.6-flash",  # Active model ID
         contents=prompt,
         config=types.GenerateContentConfig(
             response_mime_type="application/json",
             response_schema=TopicList,
         )
     )
-    return json.loads(response.text)
+    
+    result = json.loads(response.text)
+    return result.get("candidates", [])
+
+# ---------------------------------------------------------------------------
+# 4. Main Execution
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    papers = get_huggingface_papers()
+    if papers:
+        candidates = evaluate_topics(papers)
+        with open("candidates.json", "w") as f:
+            json.dump(candidates, f, indent=2)
+        print(f"Successfully generated {len(candidates)} candidate topics.")
+    else:
+        print("No papers fetched. Exiting.")    return json.loads(response.text)
 
 # ---------------------------------------------------------------------------
 # 4. Main Execution

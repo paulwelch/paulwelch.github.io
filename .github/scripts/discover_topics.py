@@ -77,7 +77,8 @@ if __name__ == "__main__":
             json.dump(candidates, f, indent=2)
         print(f"Successfully generated {len(candidates)} candidate topics.")
     else:
-        print("No papers fetched. Exiting.")    return json.loads(response.text)
+        print("No papers fetched. Exiting.")    
+    return json.loads(response.text)
 
 # ---------------------------------------------------------------------------
 # 4. Main Execution
